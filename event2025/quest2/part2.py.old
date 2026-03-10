@@ -1,0 +1,101 @@
+
+
+class Complex:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        if not isinstance(other, Complex):
+            return NotImplemented
+        return Complex(self.x+other.x, self.y+other.y)
+
+    def __mul__(self, other):
+        if not isinstance(other, Complex):
+            return NotImplemented
+        return Complex(self.x * other.x - self.y * other.y, self.x * other.y + self.y * other.x)
+
+    def __floordiv__(self, other):
+        if not isinstance(other, Complex):
+            return NotImplemented
+        return Complex(int(self.x/other.x), int(self.y/other.y))
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+
+    def __repr__(self):
+        return f"[{self.x}, {self.y}]"
+
+
+def cycle(r : Complex, a : Complex):
+    r = r * r
+    print(r)
+    r = r // Complex(10, 10)
+    print(r)
+    r = r + a
+    print(r)
+    return r
+
+
+"""
+P=[35630,-64880]   R=[-2520,-5355]
+P=[35630,-64870]   R=[5021,6454]
+P=[35640,-64860]   R=[-3291,-684]
+P=[36230,-64270]   R=[-7266,3234]
+P=[36250,-64270]   R=[162903,-679762]
+
+p1=(35630,-64880)
+p2=(35630,-64870)
+p3=(35640,-64860)
+p4=(36230,-64270)
+p5=(36250,-64270)
+"""
+
+D_by = Complex(100000,100000)
+
+def cycle(r):
+    global D_by
+    r = r * r
+    r = r // D_by
+    r = r + r
+    x1, y1 = r
+    if x1 > 1000000 or x1 < -1000000:
+        return (False, None)
+    if y1 > 1000000 or y1 < -1000000:
+        return (False, None)
+    return (True, r)
+
+
+def is_engraved(r : Complex):
+    for i in range(100):
+        (good, r) = cycle(r)
+        if not good: return (False, i)
+    return (True, r)
+
+def tc1():
+    p1=Complex(35630,-64880)
+    p2=Complex(35630,-64870)
+    p3=Complex(35640,-64860)
+    p4=Complex(36230,-64270)
+    p5=Complex(36250,-64270)
+
+    good, r1 = is_engraved(p1)
+    print(f"{good=}")
+    print(f"{r1=}")
+
+if __name__ == '__main__':
+    A=Complex(35300,-64910)
+
+    tc1()
+
+
+    for i in range(101):
+        for j in range(101):
+            x, y = A
+            x += i * 10
+            y += i * 10
+            C = Complex(x, y)
+
+            if i == 100 and j == 100:
+                print(C)
