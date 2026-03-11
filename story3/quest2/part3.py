@@ -52,8 +52,8 @@ def run(si: int, sj: int, endings: list[tuple[int, int]], matrix: list[list[str]
         di, dj = dirs[cdir]
         ci += di
         cj += dj
-        print(f"{steps=}")
-        print_matrix(ci, cj, endings, S, matrix)
+        # print(f"{steps=}")
+        # print_matrix(ci, cj, endings, S, matrix)
         assert (ci, cj) not in S
         S.add((ci, cj))
         # Is it possible that I blocked stuff to my left / right ?
@@ -69,13 +69,13 @@ def run(si: int, sj: int, endings: list[tuple[int, int]], matrix: list[list[str]
             r3, c3 = (ci + dirs_orig[cdir2][0], cj + dirs_orig[cdir2][1])
             if (r1, c1) not in S:
                 cbfs1 = capped_bfs(r1, c1, S)
-                print(f"{cbfs1=}")
+                # print(f"{cbfs1=}")
             if (r2, c2) not in S:
                 cbfs2 = capped_bfs(r2, c2, S)
-                print(f"{cbfs2=}")
+                # print(f"{cbfs2=}")
             if (r3, c3) not in S:
                 cbfs3 = capped_bfs(r3, c3, S)
-                print(f"{cbfs3=}")
+                # print(f"{cbfs3=}")
 
         cdir = (cdir + 1) % len(dirs)
         steps += 1
